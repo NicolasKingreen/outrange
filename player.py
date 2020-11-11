@@ -30,6 +30,7 @@ class Player(Entity):
         # print(f"Direction: ({self.movement_direction[0]}, {self.movement_direction[1]}); Location: ({self.x}, {self.y})\r", end="")
 
         if self.movement_direction.x or self.movement_direction.y:
+            # print(f"{self.movement_direction}\r", end="")
             self.position += self.movement_direction.get_normalised() * self.speed * frame_time
 
         super().update()

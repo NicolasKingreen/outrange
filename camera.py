@@ -8,8 +8,8 @@ class Camera(GameObject):
     def __init__(self, world, position):
         super().__init__(world, "camera", position)
         self.zoom = 1
-        self.speed = 0.3
-        self.ease_distance = 1
+        self.speed = self.world.player.speed
+        self.ease_distance = 10
         self.destination = Vector(0, 0)
         self.movement_direction = Vector(0, 0)
 
@@ -20,5 +20,5 @@ class Camera(GameObject):
         if distance > self.ease_distance:
             self.movement_direction = (self.destination - rel_pos).get_normalised()
             self.position += self.movement_direction * self.speed * frame_time
-        print(f"{rel_pos} => {self.destination} = {round(distance, 1)} with {self.movement_direction}\r", end="")
+        # print(f"{rel_pos} => {self.destination} = {round(distance, 1)} with {self.movement_direction}\r", end="")
 

@@ -136,7 +136,6 @@ class Vector():
         x0, y0 = self._v
         x1, y1 = rhs
         return Vector.from_floats(x0 + x1, y0 + y1)
-        return self
 
     def __radd__(self, lhs):
         x0, y0 = self._v
@@ -228,7 +227,7 @@ class Vector():
         else:
             xx = lhs
             yy = lhs
-        return self.from_floats(xx / x, yy / x)
+        return self.from_floats(xx / x, yy / y)
 
     def __neg__(self):
         x, y = self._v
