@@ -1,5 +1,20 @@
 from math import sqrt
 
+
+def format_number(n, accuracy=2):
+    """Formats a number in a friendly manner
+    (removes trailing zeros and unneccesary point."""
+
+    fs = "%."+str(accuracy)+"f"
+    str_n = fs%float(n)
+    if '.' in str_n:
+        str_n = str_n.rstrip('0').rstrip('.')
+    if str_n == "-0":
+        str_n = "0"
+    #str_n = str_n.replace("-0", "0")
+    return str_n
+
+
 class Vector():
 
     def __init__(self, x=0., y=0.):
@@ -78,6 +93,15 @@ class Vector():
             raise TypeError("Must be a number")
     y = property(get_y, set_y, None, "y component.")
 
+    def __str__(self):
+        x, y = self._v
+        return "(%s, %s)" % (format_number(x), format_number(y))
+
+    def __repr__(self):
+        x, y = self._v
+        return "Vector(%s, %s)" % (x, y)
+
+
     def __iter__(self):
         return iter(self._v[:])
 
@@ -124,6 +148,7 @@ class Vector():
         v = self._v
         v[0] += x1
         v[1] += y1
+        return self
 
     def __sub__(self, rhs):
         x0, y0 = self._v
@@ -148,9 +173,9 @@ class Vector():
         x, y = self._v
         if hasattr(rhs, "__getitem__"):
             xx, yy = rhs
-            return Vector2.from_floats(x * xx, y * yy)
+            return Vector.from_floats(x * xx, y * yy)
         else:
-            return Vector2.from_floats(x * rhs, y * rhs)
+            return Vector.from_floats(x * rhs, y * rhs)
 
     def __imul__(self, rhs):
         """Multiplys this vector with a scalar or a vector-list object."""
@@ -180,9 +205,9 @@ class Vector():
         x, y = self._v
         if hasattr(rhs, "__getitem__"):
             xx, yy, = rhs
-            return Vector2.from_floats(x / xx, y / yy)
+            return Vector.from_floats(x / xx, y / yy)
         else:
-            return Vector2.from_floats(x / rhs, y / rhs)
+            return Vector.from_floats(x / rhs, y / rhs)
 
     def __idiv__(self, rhs):
         if hasattr(rhs, "__getitem__"):
@@ -207,7 +232,7 @@ class Vector():
 
     def __neg__(self):
         x, y = self._v
-        return Vector2.from_floats(-x, -y)
+        return Vector.from_floats(-x, -y)
 
     def __pos__(self):
         return self.copy()
@@ -239,14 +264,14 @@ class Vector():
 
     def get_normalised(self):
         x, y = self._v
-        l = sqrt(x * x + y * y)
-        return Vector.from_floats(x / l, y / l)
+        vec = Vector.from_floats(x, y)
+        vec.normalise()
+        return vec
     get_normalized = get_normalised
 
     def get_distance_to(self, p):
-        x, y = self._v
         x0, y0 = self._v
-        x1, x1 = p
-        dx = x1 - x0
-        dy = y1 - y0
+        x1, y1 = p
+        dx = x0 - x1
+        dy = y0 - y1
         return sqrt(dx * dx + dy * dy)

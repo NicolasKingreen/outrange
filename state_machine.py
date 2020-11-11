@@ -68,8 +68,9 @@ class NPCStateExploring(State):
         # print(f"{self.npc.destination}")
 
     def check_conditions(self):
-        player = self.npc.game_instance.player
-        if sqrt((self.npc.x - player.x) ** 2 + (self.npc.y - player.y) ** 2) < self.npc.detection_range:
+        player = self.npc.world.player
+        distance_to_player = sqrt((self.npc.x - player.x) ** 2 + (self.npc.y - player.y) ** 2)
+        if distance_to_player < self.npc.detection_range:
             return "seeking"
 
     def entry_actions(self):
@@ -84,13 +85,16 @@ class NPCStateSeeking(State):
         self.npc = npc
 
     def do_actions(self):
-        self.npc.destination = (self.npc.game_instance.player.x, self.npc.game_instance.player.y)
+        self.npc.destination = (self.npc.world.player.x, self.npc.world.player.y)
 
     def check_conditions(self):
-        player = self.npc.game_instance.player
+        player = self.npc.world.player
         distance_to_player = sqrt((self.npc.x - player.x) ** 2 + (self.npc.y - player.y) ** 2)
         if distance_to_player > self.npc.detection_range:
             return "exploring"
 
     def entry_actions(self):
         self.npc.speed = 0.2
+
+    def exit_actions(self):
+        self.npc.destination = self.npc.x, self.npc.y

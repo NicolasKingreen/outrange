@@ -1,3 +1,5 @@
+GAME_VERSION="0.1.0dev5.11.2020"
+
 class GameInfo():
 
     def __init__(self):

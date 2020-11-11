@@ -1,10 +1,12 @@
+from vector import Vector
+
 class GameObject():
 
-    def __init__(self, game_instance, name):
+    def __init__(self, world, name, position=Vector(0, 0)):
 
-        self.game_instance = game_instance
+        self.world = world
         self.name = name
 
-        self.position = (self.x, self.y) = 0., 0.
+        self.position = position
         self.rotation = (0, 0)
         self.scale = (1, 1)
