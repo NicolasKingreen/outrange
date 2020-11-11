@@ -27,7 +27,7 @@ class World():
     
         self.player = Player(self, Vector(200, 200))
         self.add_object(self.player)
-        self.add_object(RangerNPC(self, (100, 100)))
+        # self.add_object(RangerNPC(self, (100, 100)))
 
         self.camera = Camera(self, Vector(-200, -200))
         # self.grid = Grid(self)
